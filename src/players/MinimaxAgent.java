@@ -16,8 +16,8 @@ public class MinimaxAgent extends AbstractPlayer {
     private Board currentBoardObj;
     private ArrayList<Integer> availableMoves;
     private final int N = 7;
-    private final int MYTURN = 2;
-    private final int OPPTURN = 1;
+    private final int MYTURN = 1;
+    private final int OPPTURN = 2;
 
     @Override
     public Move getMove(Board board) throws BadMoveException {
@@ -42,6 +42,93 @@ public class MinimaxAgent extends AbstractPlayer {
         System.err.println();
 
     }
+//
+    //Minimax algorithm
+    public int minimax(int depth, int turn, int alpha, int beta) throws BadMoveException {
+
+        List<Integer> availableMove = getAvailableMoves();
+
+        //if someone wins the game or there is no available move
+        if (currentBoardObj.win() == MYTURN)
+            return Integer.MAX_VALUE;
+        if (currentBoardObj.win() == OPPTURN)
+            return Integer.MIN_VALUE;
+        if (availableMove.isEmpty())
+            return 0;
+
+        //if it reaches the cutoff depth, call the heuristic function to evaluate the score
+        if(depth == 4){
+            int totalvalue = 0;
+            totalvalue = totalvalue + Heuristic.heuristic_score(currentBoard);
+
+            if(turn == 1)
+                return totalvalue;
+            else
+                return -totalvalue;
+        }
+
+        //Computer's turn, get maximum point
+        if (turn == 1) {
+            int newBound = alpha;
+
+            //for each possible move
+            for (int i = 0; i < availableMove.size(); ++i) {
+                int point = availableMove.get(i);
+
+                //make the move
+                makeMove(point, 1);
+                makeMoveObj(point, 1);
+                //recursive call
+                int currentScore = minimax(depth + 1, 2, alpha, beta);
+
+                //if it comes back to the top, add score to the final list
+                if (depth == 0)
+                    finalScore.add(new Advanced_Node(currentScore, point));
+
+                //update the alpha(lower bound) if currentScore is bigger
+                newBound = Math.max(currentScore, newBound);
+
+                //reset the board
+                currentBoard[point] = 0;
+                resetBoardObj(point);
+
+                //if the score bigger than beta, prune tree
+                if(newBound > beta)
+                    return beta;
+            }
+            return newBound;
+        }
+
+        //player's turn, get minimum point
+        else{
+            int newBound = beta;
+
+            //for each possible move
+            for (int i = 0; i < availableMove.size(); ++i) {
+                int point = availableMove.get(i);
+                //make the move
+                makeMove(point, 2);
+                makeMoveObj(point, 2);
+
+                //recursive call
+                int currentScore = minimax(depth + 1, 1, alpha, beta);
+
+                //update the upper bound if it's lower
+                newBound = Math.min(currentScore,newBound);
+
+                //reset the board
+                currentBoard[point] = 0;
+                resetBoardObj(point);
+
+                //if the score is bigger than alpha, prune tree
+                if(newBound < alpha)
+                    return alpha;
+            }
+            return newBound;
+        }
+    }
+
+
 
     public int bestMove() {
         int max = Integer.MIN_VALUE;
@@ -77,90 +164,6 @@ public class MinimaxAgent extends AbstractPlayer {
                 availableMoves.add(i);
         }
         return availableMoves;
-    }
-
-    //Minimax algorithm
-    public int minimax(int depth, int turn, int alpha, int beta) throws BadMoveException {
-        List<Integer> availableMoves = getAvailableMoves();
-
-        //if it reaches the roots
-        if (currentBoardObj.win() == MYTURN)
-            return Integer.MAX_VALUE;
-        if (currentBoardObj.win() == OPPTURN)
-            return Integer.MIN_VALUE;
-        if (availableMoves.isEmpty())
-            return 0;
-
-
-        //if it reaches the cutoff depth, call the heuristic function to evaluate the score
-        if(depth == 7){
-            int totalvalue = 0;
-            totalvalue = totalvalue + Heuristic.heuristic_score(currentBoard);
-
-            if(turn == MYTURN)
-                return totalvalue;
-            else
-                return -totalvalue;
-        }
-
-        //maximizing player
-        if (turn == MYTURN) {
-            int score = alpha;
-
-            //for each possible move
-            for (int i = 0; i < availableMoves.size(); ++i) {
-                int point = availableMoves.get(i);
-                //make the move
-                makeMove(point, MYTURN);
-                makeMoveObj(point, MYTURN);
-                //recursive call
-                int currentScore = minimax(depth + 1, OPPTURN, alpha, beta);
-
-                //if it comes back to the top, add score to the final list
-                if (depth == 0)
-                    finalScore.add(new Advanced_Node(currentScore, point));
-
-                //update the alpha(lower bound) if currentScore is bigger
-                score = Math.max(currentScore, score);
-
-                //reset the board
-                currentBoard[point] = 0;
-                resetBoardObj(point);
-
-                //if the score is bigger than beta, prune tree
-                if(score > beta)
-                    return beta;
-            }
-            return score;
-        }
-
-        //Minimizing player
-        else{
-            int score = Integer.MAX_VALUE;
-
-            //for each possible move
-            for (int i = 0; i < availableMoves.size(); ++i) {
-                int point = availableMoves.get(i);
-                //make the move
-                makeMove(point, OPPTURN);
-                makeMoveObj(point, OPPTURN);
-                //recursive call
-                int currentScore = minimax(depth + 1, MYTURN, alpha, beta);
-
-                //update the upper bound if it's lower
-                score = Math.min(currentScore,score);
-
-                //reset the board
-                currentBoard[point] = 0;
-                resetBoardObj(point);
-
-                //if the score is bigger than beta, prune tree
-                if(score > alpha)
-                    return alpha;
-
-            }
-            return score;
-        }
     }
 
     private void resetBoardObj(int point) throws BadMoveException {

@@ -9,8 +9,8 @@ public class Heuristic {
 	 * Heuristic_function = # of row/column/diagonal AI can win -  # of row/column/diagonal player can win 
 	 */
 	public static int heuristic_score(Integer[] a){
-		int total = 0; 
-		
+		int total = 0;
+
 		//row wins
 		total = total + threeValue(a[0],a[1],a[2]);
 		total = total + threeValue(a[3],a[4],a[5]);
@@ -23,7 +23,9 @@ public class Heuristic {
 		
 		//diagonal wins 
 		total = total + threeValue(a[0],a[4],a[8]);
-		total = total + threeValue(a[2],a[4],a[6]); 
+		total = total + threeValue(a[2],a[4],a[6]);
+
+
 	
 		return total; 
 	}

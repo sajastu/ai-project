@@ -12,7 +12,7 @@ public class Main
 	{
 		AbstractPlayer p1 = new MinimaxAgent();
 		AbstractPlayer p2 = new RandomPlayer();
-		Game g = new Game(p2, p1);
+		Game g = new Game(p1, p2);
 		g.start();
 	}
 }
