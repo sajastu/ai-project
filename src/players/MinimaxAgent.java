@@ -21,92 +21,94 @@ public class MinimaxAgent extends AbstractPlayer {
 
     @Override
     public Move getMove(Board board) throws BadMoveException {
-//        if (board.isSwapAvailable())
-//            availables.add(new Swap());
 
-        callMinimax(0, board, MYTURN);
-        //pick and make the best move
-        int comMove = bestMove();
+        callMinimax(board, MYTURN);
 
-        return new Move(new Cell(comMove/N, comMove%N));
+        int minimaxMove = bestMove();
+
+        return new Move(new Cell(minimaxMove/N, minimaxMove%N));
     }
 
-    public void callMinimax(int depth, Board board, int turn) throws BadMoveException {
+    private void callMinimax(Board board, int turn) throws BadMoveException {
         this.currentBoardObj = board;
         finalScore = new ArrayList<>();
+
+        //Conversion to an integer array for facilitate calculation
         board2Array(board);
-        minimax(depth, turn, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        //print the score of the each move
-        for(int i=0;i<finalScore.size();i++){
-            System.err.println("Point:" + (finalScore.get(i).point+1) +" -> Score: "+finalScore.get(i).score);
+
+        //Calling minimax function to construct the best move - Starting at depth 0
+        minimax(0, turn, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+        //print the score of the each move - (Test)
+        for (Advanced_Node score : finalScore) {
+            System.err.println("Point:" + (score.point + 1) + " -> Score: " + score.score);
         }
+
         System.err.println();
 
     }
-//
+
     //Minimax algorithm
-    public int minimax(int depth, int turn, int alpha, int beta) throws BadMoveException {
+    private int minimax(int depth, int turn, int alpha, int beta) throws BadMoveException {
 
         List<Integer> availableMove = getAvailableMoves();
 
-        //if someone wins the game or there is no available move
-        if (currentBoardObj.win() == MYTURN)
-            return 1;
-        if (currentBoardObj.win() == OPPTURN)
-            return -1;
-        if (availableMove.isEmpty())
-            return 0;
+        //base case recursive - if there is whether a winner or a draw is captured
+        if (currentBoardObj.win() == MYTURN)    return 1;
+        if (currentBoardObj.win() == OPPTURN)   return -1;
+        if (availableMove.isEmpty())    return 0;
 
-        //if it reaches the cutoff depth, call the heuristic function to evaluate the score
+        //If we reach the cutoff depth, so call the heuristic function to evaluate the score!
         if(depth == 3){
-            int totalvalue = 0;
-            totalvalue = totalvalue + Heuristic.heuristic_score(currentBoard);
+            int totalScore = 0;
+            totalScore = totalScore + Heuristic.heuristic_score(currentBoard);
 
-            if(turn == 1)
-                return totalvalue;
-            else
-                return -totalvalue;
+            //Maximizer should return positive value of total score i.e. totalScore
+            if(turn == 1)   return totalScore;
+            else    return -totalScore;
         }
 
-        //Computer's turn, get maximum point
+        //Maximizer
         if (turn == 1) {
-            int newBound = alpha;
+            //take alpha as a bound
+            int newScoreBound = alpha;
 
-            //for each possible move
-            for (int i = 0; i < availableMove.size(); ++i) {
-                int point = availableMove.get(i);
+            //For each possible move in the current state
+            for (Integer anAvailableMove : availableMove) {
+                int point = anAvailableMove;
 
-                //make the move
+                //Make the move simultaneously, both on the board array and board object
                 makeMove(point, 1);
                 makeMoveObj(point, 1);
-                //recursive call
+
+                //Call the function recursively
                 int currentScore = minimax(depth + 1, 2, alpha, beta);
 
-                //if it comes back to the top, add score to the final list
+                //If it comes back to the top, add the score to the final list
                 if (depth == 0)
                     finalScore.add(new Advanced_Node(currentScore, point));
 
-                //update the alpha(lower bound) if currentScore is bigger
-                newBound = Math.max(currentScore, newBound);
+                //Update the alpha(lower bound) if currentScore is bigger
+                newScoreBound = Math.max(currentScore, newScoreBound);
 
-                //reset the board
+                //Reset the board array and object
                 currentBoard[point] = 0;
                 resetBoardObj(point);
 
-                //if the score bigger than beta, prune tree
-                if(newBound > beta)
+                //If the calculated score is bigger than beta, so prune the game tree
+                if (newScoreBound > beta)
                     return beta;
             }
-            return newBound;
+            return newScoreBound;
         }
 
-        //player's turn, get minimum point
+        //Minimizer
         else{
             int newBound = beta;
 
             //for each possible move
-            for (int i = 0; i < availableMove.size(); ++i) {
-                int point = availableMove.get(i);
+            for (Integer anAvailableMove : availableMove) {
+                int point = anAvailableMove;
                 //make the move
                 makeMove(point, 2);
                 makeMoveObj(point, 2);
@@ -115,23 +117,21 @@ public class MinimaxAgent extends AbstractPlayer {
                 int currentScore = minimax(depth + 1, 1, alpha, beta);
 
                 //update the upper bound if it's lower
-                newBound = Math.min(currentScore,newBound);
+                newBound = Math.min(currentScore, newBound);
 
                 //reset the board
                 currentBoard[point] = 0;
                 resetBoardObj(point);
 
                 //if the score is bigger than alpha, prune tree
-                if(newBound < alpha)
+                if (newBound < alpha)
                     return alpha;
             }
             return newBound;
         }
     }
 
-
-
-    public int bestMove() {
+    private int bestMove() {
         int max = Integer.MIN_VALUE;
         int best = 0;
 
@@ -158,7 +158,7 @@ public class MinimaxAgent extends AbstractPlayer {
         return finalScore.get(index.get(best)).point;
     }
 
-    public List<Integer> getAvailableMoves() {
+    private List<Integer> getAvailableMoves() {
         availableMoves = new ArrayList<>();
         for (int i = 0; i < N*N; ++i) {
             if (currentBoard[i] == 0)
@@ -176,7 +176,7 @@ public class MinimaxAgent extends AbstractPlayer {
         currentBoardObj.move(new Move(new Cell(point/N,point%N)), turn);
     }
 
-    public void makeMove(int point, int player) {
+    private void makeMove(int point, int player) {
         currentBoard[point] = player;
     }
 
