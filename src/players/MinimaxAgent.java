@@ -27,6 +27,7 @@ public class MinimaxAgent extends AbstractPlayer {
         callMinimax(0, board, MYTURN);
         //pick and make the best move
         int comMove = bestMove();
+
         return new Move(new Cell(comMove/N, comMove%N));
     }
 
@@ -50,14 +51,14 @@ public class MinimaxAgent extends AbstractPlayer {
 
         //if someone wins the game or there is no available move
         if (currentBoardObj.win() == MYTURN)
-            return Integer.MAX_VALUE;
+            return 1;
         if (currentBoardObj.win() == OPPTURN)
-            return Integer.MIN_VALUE;
+            return -1;
         if (availableMove.isEmpty())
             return 0;
 
         //if it reaches the cutoff depth, call the heuristic function to evaluate the score
-        if(depth == 4){
+        if(depth == 3){
             int totalvalue = 0;
             totalvalue = totalvalue + Heuristic.heuristic_score(currentBoard);
 

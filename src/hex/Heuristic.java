@@ -10,20 +10,17 @@ public class Heuristic {
 	 */
 	public static int heuristic_score(Integer[] a){
 		int total = 0;
+		//row & col wins
+		for (int i=0; i<7; i++){
+			total = total + seventhValue(a[i*7],a[i*7+1],a[i*7+2],a[i*7+3],a[i*7+4],a[i*7+5],a[i*7+6]);
+			total = total + seventhValue(a[i],a[i+7],a[i+14],a[i+21],a[i+28],a[i+35],a[i+42]);
+		}
+		total = total + seventhValue(a[0],a[8],a[16],a[24],a[32],a[40],a[48]);
+		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
 
-		//row wins
-		total = total + threeValue(a[0],a[1],a[2]);
-		total = total + threeValue(a[3],a[4],a[5]);
-		total = total + threeValue(a[6],a[7],a[8]);
-		
-		//column wins
-		total = total + threeValue(a[0],a[3],a[6]);
-		total = total + threeValue(a[1],a[4],a[7]);
-		total = total + threeValue(a[2],a[5],a[8]);
-		
 		//diagonal wins 
-		total = total + threeValue(a[0],a[4],a[8]);
-		total = total + threeValue(a[2],a[4],a[6]);
+//		total = total + seventhValue(a[0],a[4],a[8]);
+//		total = total + seventhValue(a[2],a[4],a[6]);
 
 
 	
@@ -31,7 +28,7 @@ public class Heuristic {
 	}
 	
 	//calculate number of X,Y in a given row/column/diagonal 
-	public static int threeValue(int a, int b, int c){
+	public static int seventhValue(int a, int b, int c, int d, int e, int f, int g){
 		int sumX = 0; 
 		int sumY = 0;
 		
@@ -46,28 +43,74 @@ public class Heuristic {
 			sumY = sumY+1;
 		
 		if(c == 1)
-			sumX = sumX+1; 
+			sumX = sumX+1;
+
 		else if(c == 2)
 			sumY = sumY+1;
-		
+
+		if(d== 1)
+			sumX = sumX+1;
+
+		else if(d == 2)
+			sumY = sumY+1;
+
+		if(e == 1)
+			sumX = sumX+1;
+
+		else if(e == 2)
+			sumY = sumY+1;
+
+		if(f == 1)
+			sumX = sumX+1;
+
+		else if(f == 2)
+			sumY = sumY+1;
+
+		if(g == 1)
+			sumX = sumX+1;
+
+		else if(g == 2)
+			sumY = sumY+1;
+
+
 		//if there are 3 Y, Y wins
-		if(sumX == 0 && sumY == 3)
+		if(sumX == 0 && sumY == 7)
 			return -100; 
 		//if there are 2 Y and no X, Y can win
-		else if(sumX == 0 && sumY == 2)
+		else if(sumX == 0 && sumY == 6)
 			return -1; 
 		//if there is 1 Y and no X, Y can win
+		else if(sumX == 0 && sumY == 5)
+			return -1;
+		else if(sumX == 0 && sumY == 4)
+			return -1;
+		else if(sumX == 0 && sumY == 3)
+			return -1;
+		else if(sumX == 0 && sumY == 2)
+			return -1;
 		else if(sumX == 0 && sumY == 1)
-			return -1; 
-		//if there is 1 X and no Y, X can win
+			return -1;
+
+
+
+			//if there is 1 X and no Y, X can win
 		else if(sumX == 1 && sumY == 0)
-			return 1; 
+			return 1;
 		//if there are 2 X and no Y, X can win
 		else if(sumX == 2 && sumY == 0)
-			return 1; 
-		//if there are 3 X, X wins
+			return 1;
 		else if(sumX == 3 && sumY == 0)
-			return 100; 
+			return 1;
+		else if(sumX == 4 && sumY == 0)
+			return 1;
+		else if(sumX == 5 && sumY == 0)
+			return 1;
+		else if(sumX == 6 && sumY == 0)
+			return 1;
+			//if there are 3 X, X wins
+		else if(sumX == 7 && sumY == 0)
+			return 100;
+
 		//else(either empty or full), no one has advantages. 
 		else 
 			return 0; 
