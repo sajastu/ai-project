@@ -1,13 +1,10 @@
 package hex;/*
- * Author: Zhishen Pan
+ * Author: Sajastu
  * Date: 2017-02-15
  */
 
 public class Heuristic {
-	
-	/*
-	 * Heuristic_function = # of row/column/diagonal AI can win -  # of row/column/diagonal player can win 
-	 */
+
 	public static int heuristic_score(Integer[] a){
 		int total = 0;
 		//row & col wins
@@ -15,15 +12,10 @@ public class Heuristic {
 			total = total + seventhValue(a[i*7],a[i*7+1],a[i*7+2],a[i*7+3],a[i*7+4],a[i*7+5],a[i*7+6]);
 			total = total + seventhValue(a[i],a[i+7],a[i+14],a[i+21],a[i+28],a[i+35],a[i+42]);
 		}
+		//diagonal wins
 		total = total + seventhValue(a[0],a[8],a[16],a[24],a[32],a[40],a[48]);
 		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
 
-		//diagonal wins 
-//		total = total + seventhValue(a[0],a[4],a[8]);
-//		total = total + seventhValue(a[2],a[4],a[6]);
-
-
-	
 		return total; 
 	}
 	
@@ -73,40 +65,40 @@ public class Heuristic {
 			sumY = sumY+1;
 
 
-		//if there are 3 Y, Y wins
+		//if there are 7 Y, Y wins
 		if(sumX == 0 && sumY == 7)
 			return -100; 
 		//if there are 2 Y and no X, Y can win
 		else if(sumX == 0 && sumY == 6)
-			return -1; 
+			return -90;
 		//if there is 1 Y and no X, Y can win
 		else if(sumX == 0 && sumY == 5)
-			return -1;
+			return -70;
 		else if(sumX == 0 && sumY == 4)
-			return -1;
+			return -55;
 		else if(sumX == 0 && sumY == 3)
-			return -1;
+			return -40;
 		else if(sumX == 0 && sumY == 2)
-			return -1;
+			return -25;
 		else if(sumX == 0 && sumY == 1)
-			return -1;
+			return -5;
 
 
 
 			//if there is 1 X and no Y, X can win
 		else if(sumX == 1 && sumY == 0)
-			return 1;
+			return 5;
 		//if there are 2 X and no Y, X can win
 		else if(sumX == 2 && sumY == 0)
-			return 1;
+			return 25;
 		else if(sumX == 3 && sumY == 0)
-			return 1;
+			return 40;
 		else if(sumX == 4 && sumY == 0)
-			return 1;
+			return 55;
 		else if(sumX == 5 && sumY == 0)
-			return 1;
+			return 70;
 		else if(sumX == 6 && sumY == 0)
-			return 1;
+			return 90;
 			//if there are 3 X, X wins
 		else if(sumX == 7 && sumY == 0)
 			return 100;
