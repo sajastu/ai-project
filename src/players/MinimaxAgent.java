@@ -13,31 +13,16 @@ public class MinimaxAgent extends AbstractPlayer {
     private Integer[] currentBoard;
     private Board currentBoardObj;
     private ArrayList<Integer> availableMoves;
-    private final int N = 7;
-    private final int MYTURN = 2;
-    private final int OPPTURN = 1;
-    private int MINIMIZER;
-    private int MAXIMIZER;
+    private final int N = 7;            //size of the board
 
     @Override
     public Move getMove(Board board) throws BadMoveException {
-
-        if (MYTURN == 2){
-            MINIMIZER = MYTURN;
-            MAXIMIZER = OPPTURN;
-        }
-        else {
-            MAXIMIZER = MYTURN;
-            MINIMIZER = OPPTURN;
-        }
-
-        callMinimax(board, MYTURN);
-
-        int minimaxMove = bestMove();
-
         if (board.isSwapAvailable()){
             return new Swap();
         }
+
+        callMinimax(board, 1);
+        int minimaxMove = bestMove();
 
         System.out.println("------------------");
         System.out.println("Point-Out: " + minimaxMove);
@@ -71,17 +56,17 @@ public class MinimaxAgent extends AbstractPlayer {
         List<Integer> availableMoveOrigin = getAvailableMoves();
 
         //base case recursive - if there is whether a winner or a draw is captured
-        if (currentBoardObj.win() == MAXIMIZER)    return Integer.MAX_VALUE;
-        if (currentBoardObj.win() == MINIMIZER)   return Integer.MIN_VALUE;
+        if (currentBoardObj.win() == 1)    return Integer.MAX_VALUE;
+        if (currentBoardObj.win() == 2)   return Integer.MIN_VALUE;
         if (availableMoveOrigin.isEmpty())    return 0;
 
         //If we reach the cutoff depth, so call the heuristic function to evaluate the score!
-        if(depth == 5){
+        if(depth == 4){
             int totalScore = 0;
             totalScore = totalScore + Heuristic.heuristic_score(currentBoard);
 
             //Maximizer should return positive value of total score i.e. totalScore
-            if(turn == MAXIMIZER)
+            if(turn == 1)
                 return totalScore;
             else
                 return -totalScore;
@@ -89,22 +74,22 @@ public class MinimaxAgent extends AbstractPlayer {
 
         List<Integer> availableMove = new ArrayList<>();
         //Maximizer
-        if (turn == MAXIMIZER) {
+        if (turn == 1) {
             //take alpha as a bound
             int newScoreBound = alpha;
 
-             availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, MAXIMIZER);
+             availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
 
             //For each possible move in the current state
             for (Integer anAvailableMove : availableMove) {
                 int point = anAvailableMove;
 
                 //Make the move simultaneously, both on the board array and board object
-                makeMove(point, MAXIMIZER);
-                makeMoveObj(point, MAXIMIZER);
+                makeMove(point, 1);
+                makeMoveObj(point, 1);
 
                 //Call the function recursively
-                int currentScore = minimax(depth + 1, MINIMIZER, alpha, beta);
+                int currentScore = minimax(depth + 1, 2, alpha, beta);
 
                 //If it comes back to the top, add the score to the final list
                 if (depth == 0)
@@ -127,20 +112,16 @@ public class MinimaxAgent extends AbstractPlayer {
         //Minimizer
         else{
             int newBound = beta;
-            availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, MINIMIZER);
+            availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
             //for each possible move
             for (Integer anAvailableMove : availableMove) {
                 int point = anAvailableMove;
                 //make the move
-                makeMove(point, MINIMIZER);
-                makeMoveObj(point, MINIMIZER);
+                makeMove(point, 2);
+                makeMoveObj(point, 2);
 
                 //recursive call
-                int currentScore = minimax(depth + 1, MAXIMIZER, alpha, beta);
-
-                //If it comes back to the top, add the score to the final list
-                if (depth == 0)
-                    finalScore.add(new Advanced_Node(currentScore, point));
+                int currentScore = minimax(depth + 1, 1, alpha, beta);
 
                 //update the upper bound if it's lower
                 newBound = Math.min(currentScore, newBound);
