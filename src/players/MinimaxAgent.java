@@ -1,9 +1,6 @@
 package players;
 
-import hex.Board;
-import hex.Cell;
-import hex.Heuristic;
-import hex.Move;
+import hex.*;
 import hex.exceptions.BadMoveException;
 
 import java.util.*;
@@ -22,7 +19,9 @@ public class MinimaxAgent extends AbstractPlayer {
 
     @Override
     public Move getMove(Board board) throws BadMoveException {
-
+        if (board.isSwapAvailable()){
+            return new Swap();
+        }
         callMinimax(board, MYTURN);
 
         int minimaxMove = bestMove();
@@ -58,7 +57,7 @@ public class MinimaxAgent extends AbstractPlayer {
         if (currentBoardObj.win() == MYTURN)    return 1;
         if (currentBoardObj.win() == OPPTURN)   return -1;
         if (availableMoveOrigin.isEmpty())    return 0;
-        Integer[] currentBoardCopy = currentBoard;
+//        Integer[] currentBoardCopy = currentBoard;
         //If we reach the cutoff depth, so call the heuristic function to evaluate the score!
         if(depth == 2){
             int totalScore = 0;
@@ -74,7 +73,7 @@ public class MinimaxAgent extends AbstractPlayer {
         if (turn == 1) {
             //take alpha as a bound
             int newScoreBound = alpha;
-            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoardCopy, 2);
+            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
 
             //For each possible move in the current state
             for (Integer anAvailableMove : availableMoveOrigin) {
@@ -108,7 +107,7 @@ public class MinimaxAgent extends AbstractPlayer {
         //Minimizer
         else{
             int newBound = beta;
-            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoardCopy, 2);
+            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
             //for each possible move
             for (Integer anAvailableMove : availableMoveOrigin) {
                 int point = anAvailableMove;

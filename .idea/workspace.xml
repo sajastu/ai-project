@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae40f064-0839-4107-9f83-d22b48410efd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HexGame/hex/Heuristic.class" afterPath="$PROJECT_DIR$/out/production/HexGame/hex/Heuristic.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HexGame/players/MinimaxAgent.class" afterPath="$PROJECT_DIR$/out/production/HexGame/players/MinimaxAgent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HexGame/run/Main.class" afterPath="$PROJECT_DIR$/out/production/HexGame/run/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hex/Heuristic.java" afterPath="$PROJECT_DIR$/src/hex/Heuristic.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/players/MinimaxAgent.java" afterPath="$PROJECT_DIR$/src/players/MinimaxAgent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/run/Main.java" afterPath="$PROJECT_DIR$/src/run/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -44,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/src/run/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+              <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -53,8 +50,8 @@
       <file leaf-file-name="MinimaxAgent.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/players/MinimaxAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+            <state relative-caret-position="500">
+              <caret line="71" column="10" lean-forward="false" selection-start-line="71" selection-start-column="10" selection-end-line="71" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -134,8 +131,8 @@
         <option value="$PROJECT_DIR$/src/hex/Board.java" />
         <option value="$PROJECT_DIR$/src/players/RandomPlayer.java" />
         <option value="$PROJECT_DIR$/src/hex/Heuristic.java" />
-        <option value="$PROJECT_DIR$/src/players/MinimaxAgent.java" />
         <option value="$PROJECT_DIR$/src/run/Main.java" />
+        <option value="$PROJECT_DIR$/src/players/MinimaxAgent.java" />
       </list>
     </option>
   </component>
@@ -707,7 +704,7 @@
       <workItem from="1497717953586" duration="8634000" />
       <workItem from="1497738782685" duration="5000" />
       <workItem from="1497764050809" duration="670000" />
-      <workItem from="1497791909475" duration="11944000" />
+      <workItem from="1497791909475" duration="12156000" />
     </task>
     <task id="LOCAL-00001" summary="improved alpha beta pruning and cutoff test">
       <created>1497524391835</created>
@@ -730,11 +727,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497635059255</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Scores bug removed">
+      <created>1497808591781</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1497808591781</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83601000" />
+    <option name="totallyTimeSpent" value="83813000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-10" y="0" width="1934" height="1005" extended-state="0" />
@@ -758,7 +762,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="GitLabIntegration" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09371429" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.168" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40570176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24843097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -791,7 +795,8 @@
     <MESSAGE value="improved alpha beta pruning and cutoff test" />
     <MESSAGE value="improvement on heuristic function" />
     <MESSAGE value="improvement on internal structure of code.&#10;Added explaining comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvement on internal structure of code.&#10;Added explaining comments" />
+    <MESSAGE value="Scores bug removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Scores bug removed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1152,14 +1157,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/run/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hex/Heuristic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1172,10 +1169,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/run/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/players/MinimaxAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+        <state relative-caret-position="500">
+          <caret line="71" column="10" lean-forward="false" selection-start-line="71" selection-start-column="10" selection-end-line="71" selection-end-column="10" />
           <folding />
         </state>
       </provider>
