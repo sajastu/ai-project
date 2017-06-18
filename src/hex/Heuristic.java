@@ -3,22 +3,219 @@ package hex;/*
  * Date: 2017-02-15
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 public class Heuristic {
+
+
+	public static ArrayList<Cell> getAdjacents(Cell cell)
+	{
+		ArrayList<Cell> result=new ArrayList<>();
+		for (int r=cell.getR()-1;r<=cell.getR()+1;r++) if (r>=0 && r<7)
+		{
+			int min=(r<=cell.getR()?-1:0);
+			int max=(r>=cell.getR()?+1:0);
+			for (int c=cell.getC()+min;c<=cell.getC()+max;c++) if (c>=0 && c<7) if (!new Cell(r,c).equals(cell))
+				result.add(new Cell(r, c));
+		}
+		return result;
+	}
 
 	public static int heuristic_score(Integer[] a){
 		int total = 0;
-		//row & col wins
-		for (int i=0; i<7; i++){
-			total = total + seventhValue(a[i*7],a[i*7+1],a[i*7+2],a[i*7+3],a[i*7+4],a[i*7+5],a[i*7+6]);
-			total = total + seventhValue(a[i],a[i+7],a[i+14],a[i+21],a[i+28],a[i+35],a[i+42]);
+//		//row & col wins
+//		for (int i=0; i<7; i++){
+//			total = total + seventhValue(a[i*7],a[i*7+1],a[i*7+2],a[i*7+3],a[i*7+4],a[i*7+5],a[i*7+6]);
+//			total = total + seventhValue(a[i],a[i+7],a[i+14],a[i+21],a[i+28],a[i+35],a[i+42]);
+//		}
+//		//diagonal wins
+//		total = total + seventhValue(a[0],a[8],a[16],a[24],a[32],a[40],a[48]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[12],a[6]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[12],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[12],a[20]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[5],a[6]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[5],a[13]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[12],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[12],a[20]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[19],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[19],a[20]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[11],a[19],a[27]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[4],a[5],a[6]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[4],a[12],a[6]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[4],a[12],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[4],a[12],a[20]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[11],a[5],a[27]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[11],a[5],a[27]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[11],a[12],a[27]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[11],a[19],a[27]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[10],a[18],a[19],a[27]);
+//
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[0],a[1],a[2],a[3],a[4],a[5],a[13]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+//		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+
+
+
+		List<Cell> xBoeaders = new ArrayList<>();
+		List<Cell> yBoeaders = new ArrayList<>();
+		xBoeaders.addAll(Arrays.asList(new Cell(0,0), new Cell(1,0),new Cell(2,0),new Cell(3,0),
+				new Cell(4,0),new Cell(5,0),new Cell(6,0)));
+		yBoeaders.addAll(Arrays.asList(new Cell(0,0), new Cell(0,1),new Cell(0,2),new Cell(0,3),
+				new Cell(0,4),new Cell(0,5),new Cell(0,6)));
+
+		//row2row cells
+		for (Cell c : xBoeaders) {
+			ArrayList<Integer> args = new ArrayList<>();
+			args.add(getIntIndex(c));
+			ArrayList<Cell> adjacents_l1 = getAdjacents(c);
+			for (Cell adj : adjacents_l1){
+				if (adj.getC() > c.getC()){
+					args.add(getIntIndex(adj));
+					ArrayList<Cell> adjL2 = getAdjacents(adj);
+					for (Cell adj2 : adjL2){
+						if (adj2.getC() > adj.getC()){
+							args.add(getIntIndex(adj2));
+							ArrayList<Cell> adjL3 = getAdjacents(adj2);
+							for (Cell adj3 : adjL3){
+								if (adj3.getC() > adj2.getC()){
+									args.add(getIntIndex(adj3));
+									ArrayList<Cell> adjL4 = getAdjacents(adj3);
+									for (Cell adj4 : adjL4){
+										if (adj4.getC() > adj3.getC()){
+											args.add(getIntIndex(adj4));
+											ArrayList<Cell> adjL5 = getAdjacents(adj4);
+											for (Cell adj5 : adjL5){
+												if (adj5.getC() > adj4.getC()){
+													args.add(getIntIndex(adj5));
+													ArrayList<Cell> adjL6 = getAdjacents(adj5);
+													for (Cell adj6 : adjL6){
+														if (adj6.getC() > adj5.getC()){
+															args.add(getIntIndex(adj6));
+															total = total + seventhValue(a[args.get(0)], a[args.get(1)],a[args.get(2)]
+																	,a[args.get(3)], a[args.get(4)],a[args.get(5)],a[args.get(6)]);
+															args.remove(6);
+														}
+													}
+													args.remove(5);
+												}
+											}
+											args.remove(4);
+										}
+									}
+									args.remove(3);
+								}
+							}
+							args.remove(2);
+						}
+					}
+					args.remove(1);
+				}
+			}
 		}
-		//diagonal wins
-		total = total + seventhValue(a[0],a[8],a[16],a[24],a[32],a[40],a[48]);
-		total = total + seventhValue(a[6],a[12],a[18],a[24],a[30],a[36],a[32]);
+
+
+		for (Cell c : yBoeaders) {
+			ArrayList<Integer> args2 = new ArrayList<>();
+			args2.add(getIntIndex(c));
+			ArrayList<Cell> adjacents_l1 = getAdjacents(c);
+			for (Cell adj : adjacents_l1){
+				if (adj.getR() > c.getR()){
+					args2.add(getIntIndex(adj));
+					ArrayList<Cell> adjL2 = getAdjacents(adj);
+					for (Cell adj2 : adjL2){
+						if (adj2.getR() > adj.getR()){
+							args2.add(getIntIndex(adj2));
+							ArrayList<Cell> adjL3 = getAdjacents(adj2);
+							for (Cell adj3 : adjL3){
+								if (adj3.getR() > adj2.getR()){
+									args2.add(getIntIndex(adj3));
+									ArrayList<Cell> adjL4 = getAdjacents(adj3);
+									for (Cell adj4 : adjL4){
+										if (adj4.getR() > adj3.getR()){
+											args2.add(getIntIndex(adj4));
+											ArrayList<Cell> adjL5 = getAdjacents(adj4);
+											for (Cell adj5 : adjL5){
+												if (adj5.getR() > adj4.getR()){
+													args2.add(getIntIndex(adj5));
+													ArrayList<Cell> adjL6 = getAdjacents(adj5);
+													for (Cell adj6 : adjL6){
+														if (adj6.getR() > adj5.getR()){
+															args2.add(getIntIndex(adj6));
+															total = total + seventhValue(a[args2.get(0)], a[args2.get(1)],a[args2.get(2)]
+																	,a[args2.get(3)], a[args2.get(4)],a[args2.get(5)],a[args2.get(6)]);
+															args2.remove(6);
+														}
+													}
+													args2.remove(5);
+												}
+											}
+											args2.remove(4);
+										}
+									}
+									args2.remove(3);
+								}
+							}
+							args2.remove(2);
+						}
+					}
+					args2.remove(1);
+				}
+			}
+		}
 
 		return total; 
 	}
-	
+
+	public static Integer getIntIndex(Cell c){
+		return (c.getR()*7) + c.getC();
+	}
+
+//	private static ArrayList<Cell> getRoute(Cell c) {
+//
+//	}
+
 	//calculate number of X,Y in a given row/column/diagonal 
 	public static int seventhValue(int a, int b, int c, int d, int e, int f, int g){
 		int sumX = 0; 
@@ -84,7 +281,6 @@ public class Heuristic {
 			return -5;
 
 
-
 			//if there is 1 X and no Y, X can win
 		else if(sumX == 1 && sumY == 0)
 			return 5;
@@ -106,5 +302,5 @@ public class Heuristic {
 		//else(either empty or full), no one has advantages. 
 		else 
 			return 0; 
-	}	
+	}
 }

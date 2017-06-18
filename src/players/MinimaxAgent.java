@@ -1,6 +1,9 @@
 package players;
 
-import hex.*;
+import hex.Board;
+import hex.Cell;
+import hex.Heuristic;
+import hex.Move;
 import hex.exceptions.BadMoveException;
 
 import java.util.*;
@@ -13,20 +16,16 @@ public class MinimaxAgent extends AbstractPlayer {
     private Integer[] currentBoard;
     private Board currentBoardObj;
     private ArrayList<Integer> availableMoves;
-    private final int N = 7;            //size of the board
+    private final int N = 7;
+    private final int MYTURN = 1;
+    private final int OPPTURN = 2;
 
     @Override
     public Move getMove(Board board) throws BadMoveException {
-        if (board.isSwapAvailable()){
-            return new Swap();
-        }
 
-        callMinimax(board, 1);
+        callMinimax(board, MYTURN);
+
         int minimaxMove = bestMove();
-
-        System.out.println("------------------");
-        System.out.println("Point-Out: " + minimaxMove);
-        System.out.println("------------------");
 
         return new Move(new Cell(minimaxMove/N, minimaxMove%N));
     }
@@ -56,32 +55,29 @@ public class MinimaxAgent extends AbstractPlayer {
         List<Integer> availableMoveOrigin = getAvailableMoves();
 
         //base case recursive - if there is whether a winner or a draw is captured
-        if (currentBoardObj.win() == 1)    return Integer.MAX_VALUE;
-        if (currentBoardObj.win() == 2)   return Integer.MIN_VALUE;
+        if (currentBoardObj.win() == MYTURN)    return 1;
+        if (currentBoardObj.win() == OPPTURN)   return -1;
         if (availableMoveOrigin.isEmpty())    return 0;
-
+        Integer[] currentBoardCopy = currentBoard;
         //If we reach the cutoff depth, so call the heuristic function to evaluate the score!
-        if(depth == 4){
+        if(depth == 2){
             int totalScore = 0;
             totalScore = totalScore + Heuristic.heuristic_score(currentBoard);
 
             //Maximizer should return positive value of total score i.e. totalScore
-            if(turn == 1)
-                return totalScore;
-            else
-                return -totalScore;
+            if(turn == 1)   return totalScore;
+            else    return -totalScore;
         }
 
-        List<Integer> availableMove = new ArrayList<>();
+//        List<Integer> availableMoveOrigin;
         //Maximizer
         if (turn == 1) {
             //take alpha as a bound
             int newScoreBound = alpha;
-
-             availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
+            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoardCopy, 2);
 
             //For each possible move in the current state
-            for (Integer anAvailableMove : availableMove) {
+            for (Integer anAvailableMove : availableMoveOrigin) {
                 int point = anAvailableMove;
 
                 //Make the move simultaneously, both on the board array and board object
@@ -112,9 +108,9 @@ public class MinimaxAgent extends AbstractPlayer {
         //Minimizer
         else{
             int newBound = beta;
-            availableMove = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
+            availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoardCopy, 2);
             //for each possible move
-            for (Integer anAvailableMove : availableMove) {
+            for (Integer anAvailableMove : availableMoveOrigin) {
                 int point = anAvailableMove;
                 //make the move
                 makeMove(point, 2);
@@ -141,8 +137,10 @@ public class MinimaxAgent extends AbstractPlayer {
     private List<Integer> sortArrayBasedOnEvalFunc(List<Integer> availableMove, Integer[] currentBoard, int turn) {
         HashMap<Integer, Integer> node_scores = new HashMap<>();
         for (Integer i : availableMove){
+            int k = currentBoard[i];
             currentBoard[i] = turn;
             node_scores.put(i, Heuristic.heuristic_score(currentBoard));
+            currentBoard[i] = k;
         }
         HashMap<Integer, Integer> sortedNodeScore = null;
         if (turn == 1){
@@ -232,10 +230,6 @@ public class MinimaxAgent extends AbstractPlayer {
         //if there are several moves with identical highest score, randomly pick one
         Random ran = new Random();
         best = ran.nextInt(index.size());
-
-//        System.out.println("------------------");
-//        System.out.println("Point: " + finalScore.get(index.get(best)).point);
-//        System.out.println("------------------");
 
         return finalScore.get(index.get(best)).point;
     }
