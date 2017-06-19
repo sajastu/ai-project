@@ -6,9 +6,8 @@ import hex.Move;
 import hex.exceptions.BadMoveException;
 import hex.graphic.Client;
 import players.AbstractPlayer;
-import players.Piece;
 
-public class Game implements Piece
+public class Game
 {
 	private AbstractPlayer [] players=new AbstractPlayer[2];
 	private Client client;

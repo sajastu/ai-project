@@ -40,9 +40,9 @@ public class MinimaxAgent extends AbstractPlayer {
         minimax(0, turn, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         //print the score of the each move - (Test)
-        for (Advanced_Node score : finalScore) {
-            System.err.println("Point:" + (score.point + 1) + " -> Score: " + score.score);
-        }
+//        for (Advanced_Node score : finalScore) {
+//            System.err.println("Point:" + (score.point + 1) + " -> Score: " + score.score);
+//        }
 
         System.err.println();
 
@@ -54,10 +54,9 @@ public class MinimaxAgent extends AbstractPlayer {
         List<Integer> availableMoveOrigin = getAvailableMoves();
 
         //base case recursive - if there is whether a winner or a draw is captured
-        if (currentBoardObj.win() == MYTURN)    return 1;
-        if (currentBoardObj.win() == OPPTURN)   return -1;
+        if (currentBoardObj.win() == MYTURN)    return Integer.MIN_VALUE;
+        if (currentBoardObj.win() == OPPTURN)   return Integer.MIN_VALUE;
         if (availableMoveOrigin.isEmpty())    return 0;
-//        Integer[] currentBoardCopy = currentBoard;
         //If we reach the cutoff depth, so call the heuristic function to evaluate the score!
         if(depth == 2){
             int totalScore = 0;
@@ -68,7 +67,6 @@ public class MinimaxAgent extends AbstractPlayer {
             else    return -totalScore;
         }
 
-//        List<Integer> availableMoveOrigin;
         //Maximizer
         if (turn == 1) {
             //take alpha as a bound
@@ -85,7 +83,6 @@ public class MinimaxAgent extends AbstractPlayer {
 
                 //Call the function recursively
                 int currentScore = minimax(depth + 1, 2, alpha, beta);
-
                 //If it comes back to the top, add the score to the final list
                 if (depth == 0)
                     finalScore.add(new Advanced_Node(currentScore, point));

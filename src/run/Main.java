@@ -10,8 +10,8 @@ public class Main
 {
 	public static void main(String[] args) throws BadMoveException, InterruptedException
 	{
-		AbstractPlayer p2 = new MinimaxAgent();	//RED
-		AbstractPlayer p1 = new RandomPlayer();	//BLUE
+		AbstractPlayer p1 = new MinimaxAgent();	//RED
+		AbstractPlayer p2 = new RandomPlayer();	//BLUE
 		Game g = new Game(p1, p2);
 		g.start();
 	}

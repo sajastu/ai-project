@@ -1,8 +1,8 @@
 package players;
 
 /*
- * Author: Zhishen Pan
- * Date: 2017-02-15
+ * Author: Sajastu
+ * Date: 2017-06-15
  */
 public class Advanced_Node {
 	int score;
