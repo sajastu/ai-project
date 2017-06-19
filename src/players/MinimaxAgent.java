@@ -2,6 +2,7 @@ package players;
 
 import hex.*;
 import hex.exceptions.BadMoveException;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.*;
 
@@ -70,7 +71,7 @@ public class MinimaxAgent extends AbstractPlayer {
         //Maximizer
         if (turn == 1) {
             //take alpha as a bound
-            int newScoreBound = alpha;
+            int newScoreBound = Integer.MIN_VALUE;
             availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
 
             //For each possible move in the current state
@@ -89,21 +90,21 @@ public class MinimaxAgent extends AbstractPlayer {
 
                 //Update the alpha(lower bound) if currentScore is bigger
                 newScoreBound = Math.max(currentScore, newScoreBound);
-
+                alpha =  Math.max(alpha, newScoreBound);
                 //Reset the board array and object
                 currentBoard[point] = 0;
                 resetBoardObj(point);
 
                 //If the calculated score is bigger than beta, so prune the game tree
-                if (newScoreBound > beta)
-                    return beta;
+                if (beta <= alpha)
+                    break;
             }
             return newScoreBound;
         }
 
         //Minimizer
         else{
-            int newBound = beta;
+            int newBound = Integer.MAX_VALUE;
             availableMoveOrigin = sortArrayBasedOnEvalFunc(availableMoveOrigin, currentBoard, 2);
             //for each possible move
             for (Integer anAvailableMove : availableMoveOrigin) {
@@ -117,14 +118,14 @@ public class MinimaxAgent extends AbstractPlayer {
 
                 //update the upper bound if it's lower
                 newBound = Math.min(currentScore, newBound);
-
+                beta = Math.min(beta, newBound);
                 //reset the board
                 currentBoard[point] = 0;
                 resetBoardObj(point);
 
                 //if the score is bigger than alpha, prune tree
-                if (newBound < alpha)
-                    return alpha;
+                if (beta <= alpha)
+                    break;
             }
             return newBound;
         }
